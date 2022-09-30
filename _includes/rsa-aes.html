@@ -117,12 +117,12 @@
 <div class="d-grid gap-1 d-md-flex justify-content-md-end">
   <button class="btn btn-primary"
           type="button"
-          onclick="$('#rsa-text').val(RSA.encrypt($('#text-field').val(), $('#public-key').val(), $('#modulo').val()))">
+          onclick="$('#rsa-text').val(RSA.encrypt($('#rsa-text').val(), $('#public-key').val(), $('#modulo').val()))">
     Encrypt
   </button>
   <button class="btn btn-primary"
           type="button"
-          onclick="$('#rsa-text').val(RSA.decrypt($('#text-field').val(), $('#private-key').val(), $('#modulo').val()))">
+          onclick="$('#rsa-text').val(RSA.decrypt($('#rsa-text').val(), $('#private-key').val(), $('#modulo').val()))">
     Decrypt
   </button>
 </div>
