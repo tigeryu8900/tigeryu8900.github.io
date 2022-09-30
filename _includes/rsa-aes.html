@@ -1,0 +1,156 @@
+<script src="/rsa-aes.js"></script>
+
+<style>
+  .input-group .btn {
+    margin-bottom: 0;
+  }
+</style>
+
+<h2>AES</h2>
+
+<div class="input-group mb-3">
+  <input id="aes-key"
+         type="text"
+         class="form-control"
+         placeholder="Enter a key (must be have 16, 24, or 32 characters."
+         aria-label="key"
+         aria-describedby="expand-key">
+  <span id="aes-key-count" class="input-group-text">0</span>
+  <button class="btn btn-outline-secondary"
+          type="button"
+          id="expand-key"
+          onclick="$('#aes-expanded-key').val(bigIntToBase64(codify(AES.expandKey($('#aes-key').val()))))">
+    Expand key
+  </button>
+</div>
+
+<div class="input-group mb-3">
+  <span class="input-group-text">Expanded key</span>
+  <input id="aes-expanded-key" type="text" class="form-control" aria-label="expanded key">
+  <button type="button"
+          class="btn btn-outline-secondary input-group-text copy"
+          data-bs-container="body"
+          data-bs-toggle="popover"
+          data-bs-trigger="manual"
+          data-bs-placement="top"
+          data-bs-content="Copied!"
+          onclick="navigator.clipboard.writeText($('input#aes-expanded-key').val())">
+    <i class="fa-solid fa-clipboard"></i>
+  </button>
+</div>
+
+<textarea class="form-control" id="aes-text" rows="3"></textarea>
+<br>
+<div class="d-grid gap-1 d-md-flex justify-content-md-end">
+  <button class="btn btn-primary"
+          type="button"
+          onclick="$('#aes-text').val(bigIntToBase64(codify(AES.encrypt($('#aes-text').val(), stringify(base64ToBigInt($('#aes-expanded-key').val()))))))">
+    Encrypt
+  </button>
+  <button class="btn btn-primary"
+          type="button"
+          onclick="$('#aes-text').val(AES.decrypt(stringify(base64ToBigInt($('#aes-text').val())), stringify(base64ToBigInt($('#aes-expanded-key').val()))).replace(/\x00*$/, ''))">
+    Decrypt
+  </button>
+</div>
+
+<h2>RSA+AES</h2>
+
+<label for="bits" class="form-label">
+  Takes about 10 seconds for 256 bits with a complexity of
+  <img src="https://latex.codecogs.com/svg.latex?O%5Cleft%28n%5E4%5Cright%29" alt="O(n^4)"> where
+  <img src="https://latex.codecogs.com/svg.latex?n" alt="n"> is the number of bits. Use more bits, and the browser
+  may crash.
+</label>
+<div class="input-group mb-3">
+  <input id="bits"
+         type="number"
+         min="126"
+         class="form-control"
+         placeholder="Number of bits (at least 126)"
+         aria-label="Number of bits"
+         aria-describedby="generate-keys">
+  <button class="btn btn-outline-secondary" type="button" id="generate-keys">Generate key pair</button>
+</div>
+
+<div class="input-group mb-3">
+  <span class="input-group-text">Public key</span>
+  <input id="public-key" type="text" class="form-control">
+  <button type="button"
+          class="btn btn-outline-secondary input-group-text copy"
+          data-bs-container="body"
+          data-bs-toggle="popover"
+          data-bs-trigger="manual"
+          data-bs-placement="top"
+          data-bs-content="Copied!"
+          onclick="navigator.clipboard.writeText($('input#public-key').val())">
+    <i class="fa-solid fa-clipboard"></i>
+  </button>
+  <span class="input-group-text">Private key</span>
+  <input id="private-key" type="text" class="form-control">
+  <button type="button"
+          class="btn btn-outline-secondary input-group-text copy"
+          data-bs-container="body"
+          data-bs-toggle="popover"
+          data-bs-trigger="manual"
+          data-bs-placement="top"
+          data-bs-content="Copied!"
+          onclick="navigator.clipboard.writeText($('input#private-key').val())">
+    <i class="fa-solid fa-clipboard"></i>
+  </button>
+  <span class="input-group-text">Modulo</span>
+  <input id="modulo" type="text" class="form-control">
+  <button type="button"
+          class="btn btn-outline-secondary input-group-text copy"
+          data-bs-container="body"
+          data-bs-toggle="popover"
+          data-bs-trigger="manual"
+          data-bs-placement="top"
+          data-bs-content="Copied!"
+          onclick="navigator.clipboard.writeText($('input#modulo').val())">
+    <i class="fa-solid fa-clipboard"></i>
+  </button>
+</div>
+
+<textarea class="form-control" id="rsa-text" rows="3"></textarea>
+<br>
+<div class="d-grid gap-1 d-md-flex justify-content-md-end">
+  <button class="btn btn-primary"
+          type="button"
+          onclick="$('#rsa-text').val(RSA.encrypt($('#text-field').val(), $('#public-key').val(), $('#modulo').val()))">
+    Encrypt
+  </button>
+  <button class="btn btn-primary"
+          type="button"
+          onclick="$('#rsa-text').val(RSA.decrypt($('#text-field').val(), $('#private-key').val(), $('#modulo').val()))">
+    Decrypt
+  </button>
+</div>
+
+<script>
+  $(document).ready(function () {
+    const aesKeyCountElement = $('#aes-key-count');
+    $("#aes-key").on("input", function () {
+      const length = $(this).val().length;
+      aesKeyCountElement.text(length);
+      aesKeyCountElement.attr("style", (length === 16 || length === 24 || length === 32) ? "background-color: lime;" : "");
+    });
+    const publicKeyElement = $("#public-key");
+    const privateKeyElement = $("#private-key");
+    const moduloElement = $("#modulo");
+    $("#generate-keys").click(function () {
+      const keys = RSA.generateKeys(parseInt($("#bits").val()));
+      publicKeyElement.val(keys.public);
+      privateKeyElement.val(keys.private);
+      moduloElement.val(keys.mod);
+    });
+    $('[data-bs-toggle="popover"][data-bs-content="Copied!"]').click(function() {
+      $(this).popover("show");
+      const popoverElement = $(`#${$(this).attr("aria-describedby")}`);
+      setTimeout(() => popoverElement.fadeOut("slow", function() {
+        $(this).popover("hide");
+        setTimeout(popoverElement.show, 0);
+      }), 1000);
+    });
+  });
+</script>

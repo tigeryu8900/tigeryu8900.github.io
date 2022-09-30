@@ -1,8 +1,17 @@
 plugins:
   - jekyll-relative-links
+  - jekyll-remote-theme
+
+remote_theme: pages-themes/cayman@v0.2.0
+
 relative_links:
   enabled: true
   collections: true
-include:
+
+exclude:
   - README.md
-  - index.md
+
+markdown: kramdown
+
+kramdown:
+  parse_block_html: true
