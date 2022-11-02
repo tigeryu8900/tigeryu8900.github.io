@@ -33,55 +33,44 @@ I am a UCSB student majoring in computer science. I work on some CS projects dur
 
 I've always liked doing some coding projects during my free time, so I've created these two demos just for this page.
 
-<script src="rsa-aes.js"></script>
+## AES
 
-{::nomarkdown}
-  {% include rsa-aes.html %}
-{:/}
+<p class="codepen"
+   data-height="400"
+   data-default-tab="result"
+   data-slug-hash="yLEOPXx"
+   data-editable="true"
+   data-user="tigeryu8900">
+  <span>See the Pen <a href="https://codepen.io/tigeryu8900/pen/yLEOPXx">
+  Untitled</a> by tigeryu8900 (<a href="https://codepen.io/tigeryu8900">@tigeryu8900</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
 
-## The code for both of these demos
+## RSA + AES
 
-- [JS](){:
-  .nav-link
-  .active
-  #js-tab
-  data-bs-toggle="tab"
-  data-bs-target="#js-tab-pane"
-  type="button"
-  role="tab"
-  aria-controls="js-tab-pane"
-  aria-selected="true"
-  style="text-decoration: none;"
+<p class="codepen"
+   data-height="400"
+   data-default-tab="result"
+   data-slug-hash="YzvqEOp"
+   data-editable="true"
+   data-user="tigeryu8900">
+  <span>See the Pen <a href="https://codepen.io/tigeryu8900/pen/YzvqEOp">
+  Untitled</a> by tigeryu8900 (<a href="https://codepen.io/tigeryu8900">@tigeryu8900</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+
+<style>
+  p.codepen {
+    height: 400px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid;
+    margin: 1em 0;
+    padding: 1em;
   }
-- [HTML](){:
-  .nav-link
-  #html-tab
-  data-bs-toggle="tab"
-  data-bs-target="#html-tab-pane"
-  type="button"
-  role="tab"
-  aria-controls="html-tab-pane"
-  aria-selected="false"
-  style="text-decoration: none;"
-  }
-{: #code .nav .nav-tabs role="tablist" }
+</style>
 
-{::nomarkdown}
-  <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="js-tab-pane" role="tabpanel" aria-labelledby="js-tab" tabindex="0">
-      <pre><code id="js-code"></code></pre>
-    </div>
-    <div class="tab-pane fade" id="html-tab-pane" role="tabpanel" aria-labelledby="html-tab" tabindex="0">
-      <pre><code id="html-code"></code></pre>
-    </div>
-  </div>
-{:/}
-
-<script>
-  $(document).ready(async function () {
-    $("ul#code > li").addClass('nav-item').attr('role', 'presentation');
-console.log(await(await fetch("/rsa-aes.js")).text());
-    $("code#js-code").text(await (await fetch("/rsa-aes.js")).text());
-    $("code#html-code").text(await (await fetch("/rsa-aes.html")).text());
-  });
-</script>
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
