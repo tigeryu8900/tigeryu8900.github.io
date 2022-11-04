@@ -2,8 +2,6 @@ plugins:
   - jekyll-relative-links
   - jekyll-remote-theme
 
-remote_theme: pages-themes/cayman@v0.2.0
-
 relative_links:
   enabled: true
   collections: true
@@ -26,3 +24,28 @@ kramdown:
   input: GFM
 
 highlighter: rogue
+
+default:
+  portfolio_image: assets/profile.jpg
+  portfolio_alt: Me at my birthday party in China.
+
+portfolio:
+  name: Tiger Yu
+  description: A CS student at UCSB
+  text: I am a UCSB student majoring in computer science. I work on some CS projects during my free time.
+  socials:
+    - type: email
+      account: tigeryu8900@gmail.com
+    - type: github
+      account: tigeryu8900
+    - type: reddit
+      account: randomweeb-69420
+    - type: discord
+      account: 617560890752892928
+    - icon: fa-brands fa-weixin
+      attrib: |
+        data-bs-container="body"
+        data-bs-toggle="popover"
+        data-bs-placement="top"
+        data-bs-html="true"
+        data-bs-content="<img class=&quot;container&quot; src=&quot;/assets/wechat-qr.jpg&quot;/>"
