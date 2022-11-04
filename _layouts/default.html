@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ site.title }}</title>
+
+  {%- include head.html -%}
+
+</head>
+<body style="overflow-x: hidden;">
+  <nav class="navbar navbar-expand-lg bg-light fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Tiger Yu</a>
+      <button class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+        </ul>
+<!--        <form class="d-flex" role="search">-->
+<!--          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
+<!--          <button class="btn btn-outline-success" type="submit">Search</button>-->
+<!--        </form>-->
+      </div>
+    </div>
+  </nav>
+  <div class="row" style="padding-top: 70px;">
+    <div class="col-2">
+      <div class="col-2 gx-5" style="position: fixed;">
+        <div style="display: block; margin-left: auto; margin-right: auto; width: 90%;">
+          <img src="{{ site.baseurl }}/{{ site.default.portfolio_image }}"
+               alt="{{ site.site.default.portfolio_alt }}"
+               class="img-fluid rounded">
+          {% if site.portfolio.name %}
+            <h1 style="text-align: center;">{{ site.portfolio.name }}</h1>
+          {% endif %}
+          {% if site.portfolio.description %}
+            <h5 style="text-align: center;">{{ site.portfolio.description }}</h5>
+          {% endif %}
+          {% if site.portfolio.text %}
+            <p style="text-align: center;">{{ site.portfolio.text }}</p>
+          {% endif %}
+          {% if site.portfolio.socials %}
+            <div class="row">
+              {% for social in site.portfolio.socials %}
+                {% assign href = false %}
+                {% assign icon = "" %}
+                {% if social.type %}
+                  {% if social.type == "email" %}
+                    {% capture href %}mailto:{{ social.account }}{% endcapture %}
+                    {% assign icon = "fa-regular fa-envelope" %}
+                  {% elsif social.type == "github" %}
+                    {% capture href %}https://github.com/{{ social.account }}{% endcapture %}
+                    {% assign icon = "fa-brands fa-github" %}
+                  {% elsif social.type == "reddit" %}
+                    {% capture href %}https://www.reddit.com/user/{{ social.account }}{% endcapture %}
+                    {% assign icon = "fa-brands fa-reddit" %}
+                  {% elsif social.type == "discord" %}
+                    {% capture href %}https://discord.com/users/{{ social.account }}{% endcapture %}
+                    {% assign icon = "fa-brands fa-discord" %}
+                  {% endif %}
+                {% else %}
+                  {% if social.href %}
+                    {% capture href %}{{ social.href }}{% endcapture %}
+                  {% endif %}
+                  {% if social.icon %}
+                    {% capture icon %}{{ social.icon }}{% endcapture %}
+                  {% endif %}
+                {% endif %}
+                <a class="col btn btn-primary-outline"
+                   {% if href %} href="{{ href }}" {% endif %}
+                   {% if social.attrib %}{{ social.attrib }}{% endif %}
+                >
+                  <i class="fa {{ icon }} fa-lg"></i>
+                </a>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col g-5">
+      <main style="width: 95%;">
+        {{ content }}
+      </main>
+    </div>
+  </div>
+</body>
+</html>
